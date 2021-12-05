@@ -5,8 +5,8 @@ exports.Task = {
     title: { type: 'string' },
     description: { type: 'string' },
     order: { type: 'number' },
-    userId: { type: 'string' },
+    userId: { type: ['string', 'null'], default: null },
     boardId: { type: 'string' },
-    columnId: { type: 'string' },
+    columnId: { type: 'string', nullable: true, default: null },
   },
 };

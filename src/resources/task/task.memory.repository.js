@@ -20,12 +20,15 @@ exports.getOne = (id, boardId) => {
 };
 
 exports.create = (body, boardId) => {
+  const { description, order, title } = body;
   const newTask = {
     id: generateId(),
+    description,
+    order,
+    title,
+    boardId,
     columnId: null,
     userId: null,
-    ...body,
-    boardId,
   };
   tasks.push(newTask);
   return newTask;
