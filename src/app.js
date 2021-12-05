@@ -1,6 +1,7 @@
 const fastify = require('fastify')();
 const userRoute = require('./resources/users/user.router');
 const boardRoute = require('./resources/board/board.router');
+const taskRoute = require('./resources/task/task.router');
 
 fastify.register(require('fastify-swagger'), {
   routePrefix: '/documentation',
@@ -59,7 +60,7 @@ fastify.register(require('fastify-swagger'), {
   exposeRoute: true,
 });
 
-[...userRoute, ...boardRoute].forEach((route) => {
+[...userRoute, ...boardRoute, ...taskRoute].forEach((route) => {
   fastify.route(route);
 });
 
