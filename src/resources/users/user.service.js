@@ -1,6 +1,7 @@
 const { validate } = require('uuid');
 
 const userRepository = require('./user.memory.repository');
+const taskRepository = require('../task/task.memory.repository');
 
 exports.getAll = () => userRepository.getAll();
 
@@ -42,7 +43,7 @@ exports.remove = (req, reply) => {
   if (!validate(userId)) {
     return reply.code(400).send({ message: 'User id is not valid' });
   }
-
+  taskRepository.updateUserId(userId);
   const isRemove = userRepository.remove(userId);
 
   if (!isRemove) {

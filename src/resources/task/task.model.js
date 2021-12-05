@@ -1,9 +1,12 @@
-exports.User = {
+exports.Task = {
   type: 'object',
   properties: {
     id: { type: 'string' },
-    name: { type: 'string' },
-    login: { type: 'string' },
-    password: { type: 'string' },
+    title: { type: 'string' },
+    description: { type: 'string' },
+    order: { type: 'number' },
+    userId: { type: 'string' },
+    boardId: { type: 'string' },
+    columnId: { type: 'string' },
   },
 };

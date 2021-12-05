@@ -1,5 +1,5 @@
 const { getAll, getOne, create, update, remove } = require('./task.service');
-const { User } = require('./task.model');
+const { Task } = require('./task.model');
 
 const mainUrl = '/boards/:boardId/tasks';
 
@@ -12,7 +12,7 @@ const routes = [
       response: {
         200: {
           type: 'array',
-          users: User,
+          users: Task,
         },
       },
     },
@@ -23,7 +23,7 @@ const routes = [
     handler: getOne,
     schema: {
       response: {
-        200: User,
+        200: Task,
       },
     },
   },
@@ -34,15 +34,17 @@ const routes = [
     schema: {
       body: {
         type: 'object',
-        required: ['name', 'login', 'password'],
         properties: {
-          name: { type: 'string' },
-          login: { type: 'string' },
-          password: { type: 'string' },
+          title: { type: 'string' },
+          description: { type: 'string' },
+          order: { type: 'number' },
+          userId: { type: 'string' },
+          boardId: { type: 'string' },
+          columnId: { type: 'string' },
         },
       },
       response: {
-        201: User,
+        201: Task,
       },
     },
   },
@@ -51,16 +53,8 @@ const routes = [
     url: `${mainUrl}/:taskId`,
     handler: update,
     schema: {
-      body: {
-        type: 'object',
-        properties: {
-          name: { type: 'string' },
-          login: { type: 'string' },
-          password: { type: 'string' },
-        },
-      },
       response: {
-        200: User,
+        200: Task,
       },
     },
   },
