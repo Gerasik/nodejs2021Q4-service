@@ -61,7 +61,6 @@ exports.remove = (id, boardId) => {
 exports.updateUserId = (id) => {
   for (let i = 0; i < tasks.length; i += 1) {
     if (tasks[i].userId === id) {
-      console.log(tasks[i].userId, id);
       tasks[i] = { ...tasks[i], userId: null };
     }
   }
