@@ -13,7 +13,10 @@ const boards: Board[] = [
  * Return an array of board
  * @returns array of Board
  */
-export const getAll = async () => boards;
+export const getAll = () => {
+  console.log('asa');
+  return boards;
+};
 
 /**
  * Return one board
