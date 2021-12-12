@@ -1,6 +1,9 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 
-export type routerHandler = (req: FastifyRequest, res: FastifyReply) => void;
+export type routerHandler = (
+  req: FastifyRequest,
+  res: FastifyReply
+) => Promise<void>;
 
 export type User = {
   id?: string;

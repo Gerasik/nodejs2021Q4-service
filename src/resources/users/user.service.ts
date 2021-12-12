@@ -5,31 +5,33 @@ import { routerHandler, User } from '../../common/type';
 
 type ReqParams = { userId: string };
 
-export const getAll = () => userRepository.getAll();
+export const getAll: routerHandler = async (req, reply) => {
+  reply.send(await userRepository.getAll());
+};
 
-export const getOne: routerHandler = (req, reply) => {
+export const getOne: routerHandler = async (req, reply) => {
   const { userId } = req.params as ReqParams;
 
   if (!validate(userId)) {
-    return reply.code(400).send({ message: 'User id is not valid' });
+    reply.code(400).send({ message: 'User id is not valid' });
   }
 
-  const isRemove = userRepository.getOne(userId);
+  const isRemove = await userRepository.getOne(userId);
 
   if (!isRemove) {
     reply.code(404).send({ message: `user with id: ${userId} did not found` });
   }
-  return isRemove;
+  reply.send(await isRemove);
 };
 
-export const create: routerHandler = (req, reply) => {
+export const create: routerHandler = async (req, reply) => {
   reply.code(201).send(userRepository.create(req.body as User));
 };
 
-export const update: routerHandler = (req, reply) => {
+export const update: routerHandler = async (req, reply) => {
   const { userId } = req.params as ReqParams;
   if (!validate(userId)) {
-    return reply.code(400).send({ message: 'User id is not valid' });
+    reply.code(400).send({ message: 'User id is not valid' });
   }
 
   const isUpdated = userRepository.update(userId, req.body as User);
@@ -37,13 +39,13 @@ export const update: routerHandler = (req, reply) => {
   if (!isUpdated) {
     reply.code(404).send({ message: `user with id: ${userId} did not found` });
   }
-  return isUpdated;
+  reply.send(isUpdated);
 };
 
-export const remove: routerHandler = (req, reply) => {
+export const remove: routerHandler = async (req, reply) => {
   const { userId } = req.params as ReqParams;
   if (!validate(userId)) {
-    return reply.code(400).send({ message: 'User id is not valid' });
+    reply.code(400).send({ message: 'User id is not valid' });
   }
   taskRepository.updateUserId(userId);
   const isRemove = userRepository.remove(userId);
@@ -51,5 +53,5 @@ export const remove: routerHandler = (req, reply) => {
   if (!isRemove) {
     reply.code(404).send({ message: `user with id: ${userId} did not found` });
   }
-  return isRemove;
+  reply.send(isRemove);
 };
