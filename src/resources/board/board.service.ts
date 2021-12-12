@@ -1,11 +1,14 @@
 import { validate } from 'uuid';
-import userRepository from './board.memory.repository';
-import taskRepository from '../task/task.memory.repository';
+import * as userRepository from './board.memory.repository';
+import * as taskRepository from '../task/task.memory.repository';
+import { Board, routerHandler } from '../../common/type';
+
+type ReqParams = { boardId: string };
 
 export const getAll = () => userRepository.getAll();
 
-export const getOne = (req, reply) => {
-  const { boardId } = req.params;
+export const getOne: routerHandler = (req, reply) => {
+  const { boardId } = req.params as ReqParams;
 
   if (!validate(boardId)) {
     return reply.code(400).send({ message: 'User id is not valid' });
@@ -19,17 +22,17 @@ export const getOne = (req, reply) => {
   return isRemove;
 };
 
-export const create = (req, reply) => {
-  reply.code(201).send(userRepository.create(req.body));
+export const create: routerHandler = (req, reply) => {
+  reply.code(201).send(userRepository.create(req.body as Board));
 };
 
-export const update = (req, reply) => {
-  const { boardId } = req.params;
+export const update: routerHandler = (req, reply) => {
+  const { boardId } = req.params as ReqParams;
   if (!validate(boardId)) {
     return reply.code(400).send({ message: 'User id is not valid' });
   }
 
-  const isUpdated = userRepository.update(boardId, req.body);
+  const isUpdated = userRepository.update(boardId, req.body as Board);
 
   if (!isUpdated) {
     reply.code(404).send({ message: `user with id: ${boardId} did not found` });
@@ -37,8 +40,8 @@ export const update = (req, reply) => {
   return isUpdated;
 };
 
-export const remove = (req, reply) => {
-  const { boardId } = req.params;
+export const remove: routerHandler = (req, reply) => {
+  const { boardId } = req.params as ReqParams;
   if (!validate(boardId)) {
     return reply.code(400).send({ message: 'User id is not valid' });
   }

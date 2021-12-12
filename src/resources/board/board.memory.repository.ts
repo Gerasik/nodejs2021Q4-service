@@ -1,6 +1,7 @@
 import { v1 as generateId } from 'uuid';
+import { Board } from '../../common/type';
 
-const boards = [
+const boards: Board[] = [
   {
     id: 'e5a17900-5606-11ec-9b5e-a16e10427e00',
     title: 'myBoard',
@@ -10,19 +11,18 @@ const boards = [
 
 export const getAll = () => boards;
 
-export const getOne = (id) => {
+export const getOne = (id: string) => {
   const user = boards.find((i) => i.id === id);
   return user;
 };
 
-export const create = (body) => {
-  const newUser = { id: generateId(), ...body };
-  boards.push(newUser);
-  const { password, ...req } = newUser;
-  return { ...req };
+export const create = (body: Omit<Board, 'id'>) => {
+  const newBoard = { id: generateId(), ...body };
+  boards.push(newBoard);
+  return newBoard;
 };
 
-export const update = (id, body) => {
+export const update = (id: string, body: Board) => {
   const userIndex = boards.findIndex((i) => i.id === id);
   if (userIndex === -1) {
     return null;
@@ -31,7 +31,7 @@ export const update = (id, body) => {
   return boards[userIndex];
 };
 
-export const remove = (id) => {
+export const remove = (id: string) => {
   const userIndex = boards.findIndex((i) => i.id === id);
   const removedUser = boards[userIndex];
   if (userIndex > -1) {
