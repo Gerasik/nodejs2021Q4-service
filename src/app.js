@@ -1,24 +1,72 @@
-const express = require('express');
-const swaggerUI = require('swagger-ui-express');
-const path = require('path');
-const YAML = require('yamljs');
-const userRouter = require('./resources/users/user.router');
+const fastify = require('fastify')();
+const userRoute = require('./resources/users/user.router');
+const boardRoute = require('./resources/board/board.router');
+const taskRoute = require('./resources/task/task.router');
 
-const app = express();
-const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
-
-app.use(express.json());
-
-app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-
-app.use('/', (req, res, next) => {
-  if (req.originalUrl === '/') {
-    res.send('Service is running!');
-    return;
-  }
-  next();
+fastify.register(require('fastify-swagger'), {
+  routePrefix: '/documentation',
+  swagger: {
+    info: {
+      title: 'Test swagger',
+      description: 'Testing the Fastify swagger API',
+      version: '0.1.0',
+    },
+    externalDocs: {
+      url: 'https://swagger.io',
+      description: 'Find more info here',
+    },
+    host: 'localhost',
+    schemes: ['http'],
+    consumes: ['application/json'],
+    produces: ['application/json'],
+    tags: [
+      { name: 'user', description: 'User related end-points' },
+      { name: 'code', description: 'Code related end-points' },
+    ],
+    definitions: {
+      User: {
+        type: 'object',
+        required: ['id', 'name', 'login', 'password'],
+        properties: {
+          id: { type: 'string', format: 'uuid' },
+          name: { type: 'string' },
+          login: { type: 'string' },
+          password: { type: 'string' },
+        },
+      },
+    },
+    securityDefinitions: {
+      apiKey: {
+        type: 'apiKey',
+        name: 'apiKey',
+        in: 'header',
+      },
+    },
+  },
+  uiConfig: {
+    docExpansion: 'full',
+    deepLinking: false,
+  },
+  uiHooks: {
+    onRequest(request, reply, next) {
+      next();
+    },
+    preHandler(request, reply, next) {
+      next();
+    },
+  },
+  staticCSP: true,
+  transformStaticCSP: (header) => header,
+  exposeRoute: true,
 });
 
-app.use('/users', userRouter);
+[...userRoute, ...boardRoute, ...taskRoute].forEach((route) => {
+  fastify.route(route);
+});
 
-module.exports = app;
+fastify.ready((err) => {
+  if (err) throw err;
+  fastify.swagger();
+});
+
+module.exports = fastify;

@@ -1,7 +1,7 @@
-const { getAll, getOne, create, update, remove } = require('./user.service');
-const { User } = require('./user.model');
+const { getAll, getOne, create, update, remove } = require('./board.service');
+const { Board } = require('./board.model');
 
-const mainUrl = '/users';
+const mainUrl = '/boards';
 
 const routes = [
   {
@@ -12,18 +12,18 @@ const routes = [
       response: {
         200: {
           type: 'array',
-          users: User,
+          users: Board,
         },
       },
     },
   },
   {
     method: 'GET',
-    url: `${mainUrl}/:userId`,
+    url: `${mainUrl}/:boardId`,
     handler: getOne,
     schema: {
       response: {
-        200: User,
+        200: Board,
       },
     },
   },
@@ -34,21 +34,20 @@ const routes = [
     schema: {
       body: {
         type: 'object',
-        required: ['name', 'login', 'password'],
+        required: ['title', 'columns'],
         properties: {
-          name: { type: 'string' },
-          login: { type: 'string' },
-          password: { type: 'string' },
+          title: { type: 'string' },
+          columns: { type: 'array' },
         },
       },
       response: {
-        201: User,
+        201: Board,
       },
     },
   },
   {
     method: 'PUT',
-    url: `${mainUrl}/:userId`,
+    url: `${mainUrl}/:boardId`,
     handler: update,
     schema: {
       body: {
@@ -60,13 +59,13 @@ const routes = [
         },
       },
       response: {
-        200: User,
+        200: Board,
       },
     },
   },
   {
     method: 'DELETE',
-    url: `${mainUrl}/:userId`,
+    url: `${mainUrl}/:boardId`,
     handler: remove,
     schema: {
       response: {
