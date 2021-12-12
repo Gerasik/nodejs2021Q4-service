@@ -14,7 +14,6 @@ const boards: Board[] = [
  * @returns array of Board
  */
 export const getAll = () => {
-  console.log('asa');
   return boards;
 };
 
