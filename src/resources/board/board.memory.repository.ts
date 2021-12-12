@@ -9,7 +9,7 @@ const boards: Board[] = [
   },
 ];
 
-export const getAll = () => boards;
+export const getAll = async () => boards;
 
 export const getOne = (id: string) => {
   const user = boards.find((i) => i.id === id);
