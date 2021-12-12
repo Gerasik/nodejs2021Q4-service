@@ -1,3 +1,4 @@
+import { FastifyPluginAsync } from 'fastify';
 import { getAll, getOne, create, update, remove } from './user.service';
 import { User } from './user.model';
 
@@ -81,4 +82,13 @@ const routes = [
   },
 ];
 
+export default routes;
+
+const routes: FastifyPluginAsync = async (fastify) => {
+  fastify.get(mainUrl, getAllScheme(itemUserScheme(), getUsers));
+  fastify.get(`${mainUrl}/:userId`, getOneScheme(itemUserScheme(), getUser));
+  fastify.post(mainUrl, postUserScheme);
+  fastify.put(`${mainUrl}/:userId`, putUserScheme);
+  fastify.delete(`${mainUrl}/:userId`, deleteScheme(deleteUser));
+};
 export default routes;
