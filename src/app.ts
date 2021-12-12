@@ -20,11 +20,7 @@ const swaggerConfig = {
 app.register(FastifyPlugin as FastifyPluginCallback, swaggerConfig);
 
 app.register(userRoute);
-// app.register(boardRoute);
-// app.register(taskRoute);
-// fastify.route()
-// [...userRoute, ...boardRoute, ...taskRoute].forEach((route) => {
-//   fastify.route(route);
-// });
+app.register(boardRoute);
+app.register(taskRoute);
 
 export default app;

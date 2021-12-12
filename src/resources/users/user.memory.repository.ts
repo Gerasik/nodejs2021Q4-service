@@ -10,19 +10,39 @@ const users: User[] = [
   },
 ];
 
+/**
+ * Return an array of users
+ * @returns array of Users
+ */
 export const getAll = () => users;
 
+/**
+ * Return one user
+ *  @param id user uuid
+ * @returns Users object
+ */
 export const getOne = (id: string) => {
   const user = users.find((i) => i.id === id);
   return user;
 };
 
-export const create = (body: User) => {
+/**
+ * Return new user with generated id
+ *  @param body user without idz
+ * @returns Users object without password
+ */
+export const create = (body: Omit<User, 'id'>) => {
   const newUser = { id: generateId(), ...body };
   users.push(newUser);
-  return newUser;
+  return { id: newUser.id, name: newUser.name, login: newUser.login };
 };
 
+/**
+ * Return updated user by id
+ *  @param id user uuid
+ *  @param body user object
+ * @returns Users object or null if user with id not found
+ */
 export const update = (id: string, body: User) => {
   const userIndex = users.findIndex((i) => i.id === id);
   if (userIndex === -1) {
@@ -32,6 +52,11 @@ export const update = (id: string, body: User) => {
   return users[userIndex];
 };
 
+/**
+ * Return removed user by id
+ *  @param id user uuid
+ * @returns Users object or null if user not found
+ */
 export const remove = (id: string) => {
   const userIndex = users.findIndex((i) => i.id === id);
   const removedUser = users[userIndex];

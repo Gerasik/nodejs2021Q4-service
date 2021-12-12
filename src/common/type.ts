@@ -6,14 +6,14 @@ export type routerHandler = (
 ) => Promise<void>;
 
 export type User = {
-  id?: string;
+  id: string;
   name: string;
   login: string;
   password: string;
 };
 
 export type Task = {
-  id?: string;
+  id: string;
   title: string;
   order: number;
   description: string;

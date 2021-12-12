@@ -7,13 +7,15 @@ type ReqParams = {
   boardId: string;
 };
 
-export const getAll = () => taskRepository.getAll();
+export const getAll: routerHandler = async (req, reply) => {
+  reply.send(taskRepository.getAll());
+};
 
-export const getOne: routerHandler = (req, reply) => {
+export const getOne: routerHandler = async (req, reply) => {
   const { taskId, boardId } = req.params as ReqParams;
 
   if (!validate(taskId)) {
-    return reply.code(400).send({ message: 'User id is not valid' });
+    reply.code(400).send({ message: 'User id is not valid' });
   }
 
   const isRemove = taskRepository.getOne(taskId, boardId);
@@ -21,19 +23,19 @@ export const getOne: routerHandler = (req, reply) => {
   if (!isRemove) {
     reply.code(404).send({ message: `user with id: ${taskId} did not found` });
   }
-  return isRemove;
+  reply.send(isRemove);
 };
 
-export const create: routerHandler = (req, reply) => {
+export const create: routerHandler = async (req, reply) => {
   const { boardId } = req.params as ReqParams;
 
   reply.code(201).send(taskRepository.create(req.body as Task, boardId));
 };
 
-export const update: routerHandler = (req, reply) => {
+export const update: routerHandler = async (req, reply) => {
   const { taskId, boardId } = req.params as ReqParams;
   if (!validate(taskId)) {
-    return reply.code(400).send({ message: 'User id is not valid' });
+    reply.code(400).send({ message: 'User id is not valid' });
   }
 
   const isUpdated = taskRepository.update(taskId, boardId, req.body as Task);
@@ -41,13 +43,13 @@ export const update: routerHandler = (req, reply) => {
   if (!isUpdated) {
     reply.code(404).send({ message: `user with id: ${taskId} did not found` });
   }
-  return isUpdated;
+  reply.send(isUpdated);
 };
 
-export const remove: routerHandler = (req, reply) => {
+export const remove: routerHandler = async (req, reply) => {
   const { taskId, boardId } = req.params as ReqParams;
   if (!validate(taskId)) {
-    return reply.code(400).send({ message: 'User id is not valid' });
+    reply.code(400).send({ message: 'User id is not valid' });
   }
 
   const isRemove = taskRepository.remove(taskId, boardId);
@@ -55,5 +57,5 @@ export const remove: routerHandler = (req, reply) => {
   if (!isRemove) {
     reply.code(404).send({ message: `user with id: ${taskId} did not found` });
   }
-  return isRemove;
+  reply.send(isRemove);
 };
