@@ -1,5 +1,5 @@
-const { getAll, getOne, create, update, remove } = require('./user.service');
-const { User } = require('./user.model');
+import { getAll, getOne, create, update, remove } from './user.service';
+import { User } from './user.model';
 
 const mainUrl = '/users';
 
@@ -81,4 +81,4 @@ const routes = [
   },
 ];
 
-module.exports = routes;
+export default routes;

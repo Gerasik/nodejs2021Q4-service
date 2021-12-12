@@ -1,5 +1,5 @@
-const { getAll, getOne, create, update, remove } = require('./board.service');
-const { Board } = require('./board.model');
+import { getAll, getOne, create, update, remove } from './board.service';
+import { Board } from './board.model';
 
 const mainUrl = '/boards';
 
@@ -80,4 +80,4 @@ const routes = [
   },
 ];
 
-module.exports = routes;
+export default routes;

@@ -1,4 +1,4 @@
-const { v1: generateId } = require('uuid');
+import { v1 as generateId } from 'uuid';
 
 const tasks = [
   {
@@ -12,14 +12,14 @@ const tasks = [
   },
 ];
 
-exports.getAll = () => tasks;
+export const getAll = () => tasks;
 
-exports.getOne = (id, boardId) => {
+export const getOne = (id, boardId) => {
   const user = tasks.find((i) => i.id === id && i.boardId === boardId);
   return user;
 };
 
-exports.create = (body, boardId) => {
+export const create = (body, boardId) => {
   const { description, order, title } = body;
   const newTask = {
     id: generateId(),
@@ -34,7 +34,7 @@ exports.create = (body, boardId) => {
   return newTask;
 };
 
-exports.update = (id, boardId, body) => {
+export const update = (id, boardId, body) => {
   const userIndex = tasks.findIndex(
     (i) => i.id === id && i.boardId === boardId
   );
@@ -45,7 +45,7 @@ exports.update = (id, boardId, body) => {
   return tasks[userIndex];
 };
 
-exports.remove = (id, boardId) => {
+export const remove = (id, boardId) => {
   const userIndex = tasks.findIndex(
     (i) => i.id === id && i.boardId === boardId
   );
@@ -58,7 +58,7 @@ exports.remove = (id, boardId) => {
   return null;
 };
 
-exports.updateUserId = (id) => {
+export const updateUserId = (id) => {
   for (let i = 0; i < tasks.length; i += 1) {
     if (tasks[i].userId === id) {
       tasks[i] = { ...tasks[i], userId: null };
@@ -66,12 +66,12 @@ exports.updateUserId = (id) => {
   }
 };
 
-exports.getTaskByBoardId = (id) =>
+export const getTaskByBoardId = (id) =>
   tasks
     .filter((i) => i.boardId === id)
     .map((i) => ({ id: i.id, title: i.title, order: i.order }));
 
-exports.removeTaskByBoardId = (id) => {
+export const removeTaskByBoardId = (id) => {
   let doWhile = true;
   while (doWhile) {
     const index = tasks.findIndex((i) => i.boardId === id);

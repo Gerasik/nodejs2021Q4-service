@@ -1,4 +1,4 @@
-const { v1: generateId } = require('uuid');
+import { v1 as generateId } from 'uuid';
 
 const boards = [
   {
@@ -8,21 +8,21 @@ const boards = [
   },
 ];
 
-exports.getAll = () => boards;
+export const getAll = () => boards;
 
-exports.getOne = (id) => {
+export const getOne = (id) => {
   const user = boards.find((i) => i.id === id);
   return user;
 };
 
-exports.create = (body) => {
+export const create = (body) => {
   const newUser = { id: generateId(), ...body };
   boards.push(newUser);
   const { password, ...req } = newUser;
   return { ...req };
 };
 
-exports.update = (id, body) => {
+export const update = (id, body) => {
   const userIndex = boards.findIndex((i) => i.id === id);
   if (userIndex === -1) {
     return null;
@@ -31,7 +31,7 @@ exports.update = (id, body) => {
   return boards[userIndex];
 };
 
-exports.remove = (id) => {
+export const remove = (id) => {
   const userIndex = boards.findIndex((i) => i.id === id);
   const removedUser = boards[userIndex];
   if (userIndex > -1) {

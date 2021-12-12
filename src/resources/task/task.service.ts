@@ -1,10 +1,10 @@
-const { validate } = require('uuid');
+import { validate } from 'uuid';
 
-const taskRepository = require('./task.memory.repository');
+import taskRepository = require('./task.memory.repository');
 
-exports.getAll = () => taskRepository.getAll();
+export const getAll = () => taskRepository.getAll();
 
-exports.getOne = (req, reply) => {
+export const getOne = (req, reply) => {
   const { taskId, boardId } = req.params;
 
   if (!validate(taskId)) {
@@ -19,11 +19,11 @@ exports.getOne = (req, reply) => {
   return isRemove;
 };
 
-exports.create = (req, reply) => {
+export const create = (req, reply) => {
   reply.code(201).send(taskRepository.create(req.body, req.params.boardId));
 };
 
-exports.update = (req, reply) => {
+export const update = (req, reply) => {
   const { taskId, boardId } = req.params;
   if (!validate(taskId)) {
     return reply.code(400).send({ message: 'User id is not valid' });
@@ -37,7 +37,7 @@ exports.update = (req, reply) => {
   return isUpdated;
 };
 
-exports.remove = (req, reply) => {
+export const remove = (req, reply) => {
   const { taskId, boardId } = req.params;
   if (!validate(taskId)) {
     return reply.code(400).send({ message: 'User id is not valid' });

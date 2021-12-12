@@ -1,5 +1,5 @@
-const { getAll, getOne, create, update, remove } = require('./task.service');
-const { Task } = require('./task.model');
+import { getAll, getOne, create, update, remove } from './task.service';
+import { Task } from './task.model';
 
 const mainUrl = '/boards/:boardId/tasks';
 
@@ -75,4 +75,4 @@ const routes = [
   },
 ];
 
-module.exports = routes;
+export default routes;
