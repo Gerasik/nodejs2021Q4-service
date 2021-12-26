@@ -12,6 +12,4 @@ export default {
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
   AUTH_MODE: process.env.AUTH_MODE === 'true',
   LOG_LEVEL: process.env.LOG_LEVEL ? process.env.LOG_LEVEL : 'info',
-  LOG_FILE_PATH: process.env.LOG_FILE_PATH || 'logs/all.log',
-  ERR_FILE_PATH: process.env.ERR_FILE_PATH || 'logs/error.log',
 };
