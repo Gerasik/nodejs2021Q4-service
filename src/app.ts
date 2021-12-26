@@ -3,10 +3,10 @@ import FastifyPlugin from 'fastify-swagger';
 import userRoute from './resources/users/user.router';
 import boardRoute from './resources/board/board.router';
 import taskRoute from './resources/task/task.router';
+import logger from './common/logger';
 
 const app = fastify({
-  logger: true,
-  ignoreTrailingSlash: true,
+  logger,
 });
 
 const swaggerConfig = {
