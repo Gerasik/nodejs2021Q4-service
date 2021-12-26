@@ -25,12 +25,12 @@ const transportConf = pino.transport(<TransportMultiOptions>{
     {
       level: 'trace',
       target: 'pino/file',
-      options: { destination: config.LOG_FILE_PATH },
+      options: { destination: './logs/all.json' },
     },
     {
       level: 'error',
       target: 'pino/file',
-      options: { destination: config.ERR_FILE_PATH },
+      options: { destination: './logs/error.json' },
     },
   ],
 });
