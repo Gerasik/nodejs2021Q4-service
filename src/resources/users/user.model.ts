@@ -1,4 +1,4 @@
-exports.User = {
+export const User = {
   type: 'object',
   properties: {
     id: { type: 'string' },
