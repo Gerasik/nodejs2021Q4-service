@@ -1,0 +1,12 @@
+{
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "execMap": {
+    "ts": "node -r ts-node/register"
+  },
+  "ext": "ts",
+  "ignore": [".github", "node_modules/", "dist/", ".vscode"],
+  "restartable": "rs",
+  "watch": ["src/"]
+}
