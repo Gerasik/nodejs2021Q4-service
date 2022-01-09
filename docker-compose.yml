@@ -1,0 +1,35 @@
+version: '3'
+services:
+  web:
+    container_name: web-custom
+    build: .
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - ./src:/usr/app/src
+      - logs:/usr/app/logs
+    depends_on:
+      - postgres
+    restart: on-failure
+    networks:
+      - docker-custom-net
+  postgres:
+    container_name: postgres-custom
+    build: ./database
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - db:/var/lib/postgresql/data/
+    networks:
+      - docker-custom-net
+    restart: always
+networks:
+  docker-custom-net:
+    driver: bridge
+volumes:
+  logs:
+  db:
