@@ -6,6 +6,7 @@ dotenv.config({
 });
 
 export default {
+  HOST: process.env.HOST || '0.0.0.0',
   PORT: process.env.PORT,
   NODE_ENV: process.env.NODE_ENV,
   MONGO_CONNECTION_STRING: process.env.MONGO_CONNECTION_STRING,
