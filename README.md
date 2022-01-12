@@ -1,5 +1,12 @@
 # RS School REST service
 
+## Running application with docker
+- download docker and docker-compose
+- clone repo
+- ```git checkout develop-docker```
+- ```docker-compose up```
+- ```docker images``` to check custom images size
+
 ## Prerequisites
 
 - Git - [Download & Install Git](https://git-scm.com/downloads).
