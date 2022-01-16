@@ -1,5 +1,7 @@
 import { v1 as generateId } from 'uuid';
 import { User } from '../../common/type';
+import db from '../../common/db';
+import UserEntity from '../../entities/user';
 
 const users: User[] = [
   {
@@ -14,7 +16,13 @@ const users: User[] = [
  * Return an array of users
  * @returns array of Users
  */
-export const getAll = () => users;
+export const getAll = async (): Promise<User[]> => {
+  const repo = db(UserEntity);
+
+  const usersAll = await repo.find({ where: {} });
+
+  return usersAll;
+};
 
 /**
  * Return one user

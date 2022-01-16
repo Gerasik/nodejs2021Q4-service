@@ -1,13 +1,15 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "removeComments": true,
-        "outDir": "./js",
-        "sourceMap": true,
-        "noImplicitAny": true,
-        "strict": true
-    },
-    "include": [
-        "./src"
-      ]
+  "compilerOptions": {
+    "target": "es5",
+    "removeComments": true,
+    "outDir": "./js",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "strict": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "strictPropertyInitialization": false
+  },
+  "include": ["./src"]
 }
