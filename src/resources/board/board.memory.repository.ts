@@ -1,19 +1,15 @@
 import { v1 as generateId } from 'uuid';
+import db from '../../common/db';
 import { Board } from '../../common/type';
-
-const boards: Board[] = [
-  {
-    id: 'e5a17900-5606-11ec-9b5e-a16e10427e00',
-    title: 'myBoard',
-    columns: [],
-  },
-];
+import BoardEntity from '../../entities/board';
 
 /**
  * Return an array of board
  * @returns array of Board
  */
-export const getAll = () => {
+export const getAll = async () => {
+  const boards = await db(BoardEntity).find({ relations: ['columns'] });
+
   return boards;
 };
 
@@ -22,9 +18,12 @@ export const getAll = () => {
  *  @param id board uuid
  * @returns Board object
  */
-export const getOne = (id: string) => {
-  const board = boards.find((i) => i.id === id);
-  return board;
+export const getOne = async (id: string) => {
+  const resultBoard = await db(BoardEntity).findOne(id, {
+    relations: ['columns'],
+  });
+
+  return resultBoard || null;
 };
 
 /**
@@ -32,9 +31,11 @@ export const getOne = (id: string) => {
  *  @param body board without id
  * @returns Board object
  */
-export const create = (body: Omit<Board, 'id'>) => {
+export const create = async (body: Omit<Board, 'id'>) => {
   const newBoard = { id: generateId(), ...body };
-  boards.push(newBoard);
+
+  await db(BoardEntity).save(newBoard as unknown as BoardEntity);
+
   return newBoard;
 };
 
@@ -44,13 +45,23 @@ export const create = (body: Omit<Board, 'id'>) => {
  *  @param body Board object
  * @returns Board object or null if board with id not found
  */
-export const update = (id: string, body: Board) => {
-  const boardIndex = boards.findIndex((i) => i.id === id);
-  if (boardIndex === -1) {
-    return null;
+export const update = async (id: string, body: Board) => {
+  const resultBoard = await db(BoardEntity).findOne(id);
+
+  if (!resultBoard) return null;
+
+  const updatedBoard = { ...resultBoard, ...body };
+
+  let savedBoard;
+
+  try {
+    await db(BoardEntity).save(updatedBoard as unknown as BoardEntity);
+    savedBoard = await db(BoardEntity).findOne(id, { relations: ['columns'] });
+  } catch (e) {
+    console.error(`FAILED TO UPDATE BOARD: ${e}`);
   }
-  boards[boardIndex] = { ...boards[boardIndex], ...body };
-  return boards[boardIndex];
+
+  return savedBoard || null;
 };
 
 /**
@@ -58,13 +69,8 @@ export const update = (id: string, body: Board) => {
  *  @param id board uuid
  * @returns Board object or null if board not found
  */
-export const remove = (id: string) => {
-  const boardIndex = boards.findIndex((i) => i.id === id);
-  const removedBoard = boards[boardIndex];
-  if (boardIndex > -1) {
-    boards.splice(boardIndex, 1);
-    return removedBoard;
-  }
+export const remove = async (id: string) => {
+  const deleteResult = await db(BoardEntity).delete(id);
 
-  return null;
+  return !!deleteResult.affected;
 };

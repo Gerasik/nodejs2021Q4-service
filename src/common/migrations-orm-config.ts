@@ -1,17 +1,24 @@
-export = {
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config({
+  path: path.join(__dirname, '../../.env'),
+});
+
+export default {
   type: 'postgres',
   name: 'postgresAppConnection',
   synchronize: false,
   host: 'localhost',
-  username: 'admin',
-  password: 'admin',
-  database: 'postgres',
-  port: '5432',
-  entities: ['./src/entities/**/*.ts'],
-  migrations: ['./src/migrations/**/*.ts'],
-  migrationsTableName: 'custom_migration_table',
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DB,
+  port: process.env.POSTGRES_PORT,
+  autoReconnect: true,
+  entities: [process.env.TYPEORM_ENTITIES],
+  migrations: [process.env.TYPEORM_MIGRATIONS],
   cli: {
-    migrationsDir: './src/migrations',
-    entitiesDir: './src/entities',
+    migrationsDir: process.env.TYPEORM_MIGRATIONS_DIR,
+    entitiesDir: process.env.TYPEORM_ENTITIES_DIR,
   },
 };

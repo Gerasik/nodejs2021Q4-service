@@ -1,4 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
+import Column from '../resources/board/column.model';
 
 export type routerHandler = (
   req: FastifyRequest,
@@ -25,5 +26,5 @@ export type Task = {
 export type Board = {
   id: string;
   title: string;
-  columns?: string[];
+  columns: Column;
 };

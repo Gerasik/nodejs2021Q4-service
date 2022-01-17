@@ -3,23 +3,12 @@ import { User } from '../../common/type';
 import db from '../../common/db';
 import UserEntity from '../../entities/user';
 
-const users: User[] = [
-  {
-    id: '26d81690-55da-11ec-9935-61a804967ac6',
-    name: 'Yauheni',
-    login: 'login',
-    password: 'password',
-  },
-];
-
 /**
  * Return an array of users
  * @returns array of Users
  */
 export const getAll = async (): Promise<User[]> => {
-  const repo = db(UserEntity);
-
-  const usersAll = await repo.find({ where: {} });
+  const usersAll = await db(UserEntity).find({ where: {} });
 
   return usersAll;
 };
@@ -29,9 +18,9 @@ export const getAll = async (): Promise<User[]> => {
  *  @param id user uuid
  * @returns Users object
  */
-export const getOne = (id: string) => {
-  const user = users.find((i) => i.id === id);
-  return user;
+export const getOne = async (id: string) => {
+  const resultUser: User | undefined = await db(UserEntity).findOne(id);
+  return resultUser || null;
 };
 
 /**
@@ -39,9 +28,9 @@ export const getOne = (id: string) => {
  *  @param body user without idz
  * @returns Users object without password
  */
-export const create = (body: Omit<User, 'id'>) => {
+export const create = async (body: Omit<User, 'id'>) => {
   const newUser = { id: generateId(), ...body };
-  users.push(newUser);
+  await db(UserEntity).save(newUser);
   return { id: newUser.id, name: newUser.name, login: newUser.login };
 };
 
@@ -51,13 +40,16 @@ export const create = (body: Omit<User, 'id'>) => {
  *  @param body user object
  * @returns Users object or null if user with id not found
  */
-export const update = (id: string, body: User) => {
-  const userIndex = users.findIndex((i) => i.id === id);
-  if (userIndex === -1) {
-    return null;
-  }
-  users[userIndex] = { ...users[userIndex], ...body };
-  return users[userIndex];
+export const update = async (id: string, body: User) => {
+  const resultUser: User | undefined = await db(UserEntity).findOne(id);
+
+  if (!resultUser) return null;
+
+  await db(UserEntity).update(id, body);
+
+  const updatedUser = await db(UserEntity).findOne(id);
+
+  return updatedUser || null;
 };
 
 /**
@@ -65,13 +57,8 @@ export const update = (id: string, body: User) => {
  *  @param id user uuid
  * @returns Users object or null if user not found
  */
-export const remove = (id: string) => {
-  const userIndex = users.findIndex((i) => i.id === id);
-  const removedUser = users[userIndex];
-  if (userIndex > -1) {
-    users.splice(userIndex, 1);
-    return removedUser;
-  }
+export const remove = async (id: string) => {
+  const deleteResult = await db(UserEntity).delete(id);
 
-  return null;
+  return !!deleteResult.affected;
 };
