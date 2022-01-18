@@ -1,4 +1,4 @@
-exports.Board = {
+export const Board = {
   type: 'object',
   properties: {
     id: { type: 'string' },

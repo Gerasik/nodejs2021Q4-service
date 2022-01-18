@@ -1,4 +1,4 @@
-exports.Task = {
+export const Task = {
   type: 'object',
   properties: {
     id: { type: 'string' },
