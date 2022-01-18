@@ -1,4 +1,3 @@
-import { v1 as generateId } from 'uuid';
 import { User } from '../../common/type';
 import db from '../../common/db';
 import UserEntity from '../../entities/user';
@@ -28,10 +27,11 @@ export const getOne = async (id: string) => {
  *  @param body user without idz
  * @returns Users object without password
  */
-export const create = async (body: Omit<User, 'id'>) => {
-  const newUser = { id: generateId(), ...body };
-  await db(UserEntity).save(newUser);
-  return { id: newUser.id, name: newUser.name, login: newUser.login };
+export const create = async (body: User) => {
+  const newUser = await db(UserEntity).create(body);
+
+  const answer = await db(UserEntity).save(newUser);
+  return answer;
 };
 
 /**

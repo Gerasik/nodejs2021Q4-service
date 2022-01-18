@@ -25,7 +25,10 @@ export const getOne: routerHandler = async (req, reply) => {
 };
 
 export const create: routerHandler = async (req, reply) => {
-  reply.code(201).send(userRepository.create(req.body as User));
+  const { password, ...newUser } = await userRepository.create(
+    req.body as User
+  );
+  reply.code(201).send(newUser);
 };
 
 export const update: routerHandler = async (req, reply) => {
@@ -34,7 +37,7 @@ export const update: routerHandler = async (req, reply) => {
     reply.code(400).send({ message: 'User id is not valid' });
   }
 
-  const isUpdated = userRepository.update(userId, req.body as User);
+  const isUpdated = await userRepository.update(userId, req.body as User);
 
   if (!isUpdated) {
     reply.code(404).send({ message: `user with id: ${userId} did not found` });
@@ -48,7 +51,7 @@ export const remove: routerHandler = async (req, reply) => {
     reply.code(400).send({ message: 'User id is not valid' });
   }
   taskRepository.updateUserId(userId);
-  const isRemove = userRepository.remove(userId);
+  const isRemove = await userRepository.remove(userId);
 
   if (!isRemove) {
     reply.code(404).send({ message: `user with id: ${userId} did not found` });

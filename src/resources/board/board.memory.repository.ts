@@ -1,4 +1,3 @@
-import { v1 as generateId } from 'uuid';
 import db from '../../common/db';
 import { Board } from '../../common/type';
 import BoardEntity from '../../entities/board';
@@ -32,11 +31,9 @@ export const getOne = async (id: string) => {
  * @returns Board object
  */
 export const create = async (body: Omit<Board, 'id'>) => {
-  const newBoard = { id: generateId(), ...body };
-
-  await db(BoardEntity).save(newBoard as unknown as BoardEntity);
-
-  return newBoard;
+  const newBoard = await db(BoardEntity).create(body as unknown as BoardEntity);
+  const answer = await db(BoardEntity).save(body as unknown as BoardEntity);
+  return answer;
 };
 
 /**
