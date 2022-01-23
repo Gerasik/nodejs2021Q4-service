@@ -1,6 +1,7 @@
 import { User } from '../../common/type';
 import db from '../../common/db';
 import UserEntity from '../../entities/user';
+import encryptPass from '../../common/encrypt-pass';
 
 /**
  * Return an array of users
@@ -28,9 +29,14 @@ export const getOne = async (id: string) => {
  * @returns Users object without password
  */
 export const create = async (body: User) => {
-  const newUser = await db(UserEntity).create(body);
+  const { password, ...newUserData } = await db(UserEntity).create(body);
 
-  const answer = await db(UserEntity).save(newUser);
+  const encryptedPass = await encryptPass(password);
+
+  const answer = await db(UserEntity).save({
+    ...newUserData,
+    password: encryptedPass,
+  });
   return answer;
 };
 
@@ -61,4 +67,10 @@ export const remove = async (id: string) => {
   const deleteResult = await db(UserEntity).delete(id);
 
   return !!deleteResult.affected;
+};
+
+export const getUserByLogin = async (login: string) => {
+  const user = await db(UserEntity).findOne({ where: { login } });
+
+  return user || null;
 };

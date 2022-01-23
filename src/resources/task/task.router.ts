@@ -1,10 +1,12 @@
 import { FastifyPluginAsync } from 'fastify';
 import { getAll, getOne, create, update, remove } from './task.service';
 import { Task } from './task.model';
+import checkJWT from '../login/check-jwt';
 
 const mainUrl = '/boards/:boardId/tasks';
 
 const getAllScheme = {
+  preHandler: checkJWT,
   handler: getAll,
   schema: {
     response: {
@@ -17,6 +19,7 @@ const getAllScheme = {
 };
 
 const getOneScheme = {
+  preHandler: checkJWT,
   handler: getOne,
   schema: {
     response: {
@@ -26,6 +29,7 @@ const getOneScheme = {
 };
 
 const createScheme = {
+  preHandler: checkJWT,
   handler: create,
   schema: {
     body: {
@@ -46,6 +50,7 @@ const createScheme = {
 };
 
 const updateScheme = {
+  preHandler: checkJWT,
   handler: update,
   schema: {
     response: {
@@ -55,6 +60,7 @@ const updateScheme = {
 };
 
 const deleteScheme = {
+  preHandler: checkJWT,
   handler: remove,
   schema: {
     response: {

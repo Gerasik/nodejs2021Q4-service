@@ -24,7 +24,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_PORT: ${POSTGRES_PORT}
     volumes:
-      - db:/var/lib/postgresql/data/
+      - ./db:/var/lib/postgresql/data/
     networks:
       - docker-custom-net
     restart: always
