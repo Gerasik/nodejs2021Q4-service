@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import { routerHandler } from '../../common/type';
 import { getUserByLogin } from '../users/user.memory.repository';
+import config from '../../common/config';
 
 type ReqBody = { login: string; password: string };
 
@@ -20,6 +22,10 @@ export const loginService: routerHandler = async (req, reply) => {
       reply.code(403).send({ message: `Incorrect password` });
     }
 
-    reply.send({ token: 'fsdfsdfsdfs' });
+    const tokenData = { userId: user.id, login: user.login };
+
+    const token = await jwt.sign(tokenData, config.JWT_SECRET_KEY);
+
+    reply.send({ token });
   }
 };

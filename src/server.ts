@@ -1,12 +1,15 @@
 import config from './common/config';
 import app from './app';
 import connectPostrgess from './db/db';
+import { create } from './resources/users/user.memory.repository';
 
 const HOST = config.HOST as string;
 const PORT = config.PORT as string;
 
 const start = async () => {
   await connectPostrgess();
+
+  await create({ name: 'Admin', login: 'admin', password: 'admin' });
 
   try {
     console.log(`App is running on http://${HOST}:${PORT}`);

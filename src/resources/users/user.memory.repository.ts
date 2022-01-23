@@ -28,7 +28,7 @@ export const getOne = async (id: string) => {
  *  @param body user without idz
  * @returns Users object without password
  */
-export const create = async (body: User) => {
+export const create = async (body: Omit<User, 'id'>) => {
   const { password, ...newUserData } = await db(UserEntity).create(body);
 
   const encryptedPass = await encryptPass(password);
