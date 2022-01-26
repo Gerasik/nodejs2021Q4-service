@@ -1,4 +1,4 @@
-import db from '../../common/db';
+import db from '../../common/database';
 import { Board } from '../../common/type';
 import BoardEntity from '../../entities/board';
 

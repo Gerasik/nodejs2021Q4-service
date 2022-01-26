@@ -52,5 +52,6 @@ const checkJWT = async (req: FastifyRequest, reply: FastifyReply) => {
 
     return { req, reply };
   }
+  return { req, reply };
 };
 export default checkJWT;

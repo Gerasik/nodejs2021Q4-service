@@ -1,6 +1,6 @@
 import config from './common/config';
 import app from './app';
-import connectPostrgess from './db/db';
+import connectPostrgess from './base';
 import { create } from './resources/users/user.memory.repository';
 
 const HOST = config.HOST as string;

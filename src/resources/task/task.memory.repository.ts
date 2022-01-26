@@ -1,4 +1,4 @@
-import db from '../../common/db';
+import db from '../../common/database';
 import { Task } from '../../common/type';
 import TaskEntity from '../../entities/task';
 

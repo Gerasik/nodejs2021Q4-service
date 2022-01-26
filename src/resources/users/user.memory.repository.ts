@@ -1,5 +1,5 @@
 import { User } from '../../common/type';
-import db from '../../common/db';
+import db from '../../common/database';
 import UserEntity from '../../entities/user';
 import encryptPass from '../../common/encrypt-pass';
 
