@@ -11,7 +11,8 @@ import {
 } from '@nestjs/common';
 import { HTTP_CODES } from '../../common/config';
 import { ValidationPipe } from '../../common/validation.pipe';
-import UsersService from './user.service';
+import UserService from './user.service';
+import TaskService from '../task/task.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from '../../services/auth/auth.guards';
@@ -19,7 +20,10 @@ import { AuthGuard } from '../../services/auth/auth.guards';
 @Controller('users')
 @UseGuards(AuthGuard)
 export default class UsersController {
-  constructor(private readonly usersService: UsersService) {
+  constructor(
+    private readonly userService: UserService,
+    private readonly taskService: TaskService
+  ) {
     // Initial admin for tests
     const adminDto: CreateUserDto = {
       name: 'admin',
@@ -28,24 +32,24 @@ export default class UsersController {
     };
 
     (async () => {
-      const admin = await this.usersService.findOneByLogin(adminDto.login);
-      if (!admin) await this.usersService.create(adminDto);
+      const admin = await this.userService.findOneByLogin(adminDto.login);
+      if (!admin) await this.userService.create(adminDto);
     })();
   }
 
   @Post()
   create(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    return this.userService.create(createUserDto);
   }
 
   @Get()
   findAll() {
-    return this.usersService.findAll();
+    return this.userService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+    return this.userService.findOne(id);
   }
 
   @Put(':id')
@@ -53,12 +57,14 @@ export default class UsersController {
     @Param('id') id: string,
     @Body(new ValidationPipe()) updateUserDto: UpdateUserDto
   ) {
-    return this.usersService.update(id, updateUserDto);
+    return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
   @HttpCode(HTTP_CODES.NO_CONTENT)
   async remove(@Param('id') id: string) {
-    await this.usersService.remove(id);
+    await this.userService.remove(id);
+
+    await this.taskService.unassgnTasks(id);
   }
 }
