@@ -18,7 +18,7 @@ import { AuthGuard } from '../../services/auth/auth.guards';
 
 @Controller('users')
 @UseGuards(AuthGuard)
-export class UsersController {
+export default class UsersController {
   constructor(private readonly usersService: UsersService) {
     // Initial admin for tests
     const adminDto: CreateUserDto = {

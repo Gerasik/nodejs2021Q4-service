@@ -4,7 +4,7 @@ import {
   ExecutionContext,
   UnauthorizedException,
 } from '@nestjs/common';
-import jwt, { VerifyOptions } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import config from '../../common/config';
 
 @Injectable()
