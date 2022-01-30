@@ -1,14 +1,9 @@
 import { Module, Logger, MiddlewareConsumer } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { LoggerMiddleware } from './logger/logger.middleware';
+import { LoggerMiddleware } from './services/logger/logger.middleware';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { TasksModule } from './tasks/tasks.module';
-import { BoardsModule } from './boards/boards.module';
-import { LoginModule } from './login/login.module';
-import { FilesModule } from './files/files.module';
-import typeOrmConfig from './common/typeormconfig';
+import typeOrmConfig from './common/ormconfig';
 
 @Module({
   imports: [
@@ -16,11 +11,6 @@ import typeOrmConfig from './common/typeormconfig';
       ...typeOrmConfig,
       autoLoadEntities: true,
     }),
-    UsersModule,
-    LoginModule,
-    TasksModule,
-    BoardsModule,
-    FilesModule,
   ],
   controllers: [AppController],
   providers: [AppService, Logger],
