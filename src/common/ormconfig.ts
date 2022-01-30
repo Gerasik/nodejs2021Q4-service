@@ -1,18 +1,29 @@
+import dotenv from 'dotenv';
+import path from 'path';
 import { ConnectionOptions } from 'typeorm';
-import config from './config';
 
-const ormConfig = {
-  type: 'postgres',
-  name: 'postgres-app-connection',
-  synchronize: false,
-  host: config.POSTGRES_HOST,
-  username: config.POSTGRES_USER,
-  password: config.POSTGRES_PASSWORD,
-  database: config.POSTGRES_DB,
-  port: config.POSTGRES_PORT,
-  autoReconnect: true,
-  entities: [config.TYPEORM_ENTITIES],
-  migrations: [config.TYPEORM_MIGRATIONS],
+dotenv.config({
+  path: path.join(__dirname, '../../.env'),
+});
+
+const getMigrationDirectory = () => {
+  const directory =
+    process.env.NODE_ENV === 'migration' ? 'src' : `${__dirname}`;
+  return `${directory}/migrations/**/*{.ts,.js}`;
 };
 
-export default ormConfig as ConnectionOptions;
+export default {
+  type: 'postgres',
+  synchronize: true,
+  host: process.env.POSTGRES_HOST,
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DB,
+  port: parseInt(process.env.POSTGRES_PORT || '5432', 10),
+  autoReconnect: true,
+  entities: [`${path.join(__dirname, '../**', '*.entity.{ts,js}')}`],
+  migrations: [getMigrationDirectory()],
+  cli: {
+    migrationsDir: 'src/migrations',
+  },
+} as ConnectionOptions;

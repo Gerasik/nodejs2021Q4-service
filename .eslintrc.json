@@ -6,8 +6,9 @@
     "jest": true,
     "node": true
   },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "import"],
   "parserOptions": {
-    "sourceType": "module",
     "ecmaVersion": 2021,
     "ecmaFeatures": {
       "impliedStrict": true
@@ -15,30 +16,30 @@
   },
   "settings": {
     "noInlineConfig": true,
-    "import/resolver": {
-      "typescript": {}
+    "node": {
+      "tryExtensions": [".js", ".ts", ".json", ".node"]
     }
   },
   "extends": [
     "eslint:recommended",
     "plugin:node/recommended",
-    "plugin:@typescript-eslint/recommended",
     "airbnb-base",
-    "prettier"
+    "prettier",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript"
   ],
   "rules": {
-    "import/extensions": "off",
+    "@typescript-eslint/no-explicit-any": 2,
     "linebreak-style": "off",
     "node/no-unsupported-features/es-syntax": "off",
     "no-underscore-dangle": "off",
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "off",
     "import/prefer-default-export": "off",
-    "node/no-missing-import": [
-      "error",
-      {
-        "tryExtensions": [".ts", ".tsx"]
-      }
-    ]
+    "import/extensions": "off",
+    "no-console": "off",
+    "class-methods-use-this": "off",
+    "no-useless-constructor": "off",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "error"
   }
 }

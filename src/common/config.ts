@@ -1,25 +1,44 @@
-import * as dotenv from 'dotenv';
-import * as path from 'path';
+import dotenv from 'dotenv';
+import path from 'path';
 
 dotenv.config({
   path: path.join(__dirname, '../../.env'),
 });
 
-export default {
-  HOST: process.env.HOST || '0.0.0.0',
-  PORT: process.env.PORT,
+const loggingLevels = {
+  0: 'error',
+  1: 'warning',
+  2: 'notice',
+  3: 'info',
+  4: 'debug',
+};
+
+export enum HTTP_CODES {
+  OK = 200,
+  CREATED = 201,
+  NO_CONTENT = 204,
+  BAD_REQUEST = 400,
+  NOT_FOUND = 404,
+  INTERNAL_SERVER_ERROR = 500,
+}
+
+const currentLogLevel: string =
+  process.env.LOGGING_LEVEL !== undefined && +process.env.LOGGING_LEVEL < 5
+    ? process.env.LOGGING_LEVEL
+    : '4';
+
+const config = {
+  PORT: process.env.PORT || 4000,
   NODE_ENV: process.env.NODE_ENV,
   MONGO_CONNECTION_STRING: process.env.MONGO_CONNECTION_STRING,
-  JWT_SECRET_KEY: process.env.JWT_SECRET_KEY || 'aassss',
+  JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
   AUTH_MODE: process.env.AUTH_MODE === 'true',
-  LOG_LEVEL: process.env.LOG_LEVEL ? process.env.LOG_LEVEL : 'info',
-  POSTGRES_HOST: process.env.POSTGRES_HOST,
-  POSTGRES_PORT: process.env.POSTGRES_PORT,
-  POSTGRES_USER: process.env.POSTGRES_USER,
-  POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
-  POSTGRES_DB: process.env.POSTGRES_DB,
-  TYPEORM_ENTITIES: process.env.TYPEORM_ENTITIES,
-  TYPEORM_MIGRATIONS: process.env.TYPEORM_MIGRATIONS,
-  TYPEORM_ENTITIES_DIR: process.env.TYPEORM_ENTITIES_DIR,
-  TYPEORM_MIGRATIONS_DIR: process.env.TYPEORM_MIGRATIONS_DIR,
+  loggingLevel: loggingLevels[currentLogLevel as keyof object],
+  COMMON_LOG_FILE: './logs/common.txt',
+  ERROR_LOG_FILE: './logs/error.txt',
+  currentLogLevel: +currentLogLevel,
+  APP_HOST: process.env.APP_HOST || '0.0.0.0',
+  STATIC_FILES_DIR: process.env.STATIC_FILES_DIR || './',
 };
+
+export default config;

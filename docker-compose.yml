@@ -1,20 +1,21 @@
-version: '3'
+version: '1'
 services:
-  web:
-    container_name: web-custom
+  node:
+    container_name: api-nest
     build: .
     ports:
       - ${PORT}:${PORT}
     volumes:
-      - ./src:/usr/app/src
-      - logs:/usr/app/logs
+      - 'logs:/usr/app/logs'
+      - 'static:/usr/app/static'
+      - './src:/usr/app/src'
     depends_on:
       - postgres
     restart: on-failure
     networks:
-      - docker-custom-net
+      - docker-nest
   postgres:
-    container_name: postgres-custom
+    container_name: postgres-nest
     build: ./database
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
@@ -26,7 +27,7 @@ services:
     volumes:
       - ./db:/var/lib/postgresql/data/
     networks:
-      - docker-custom-net
+      - docker-nest
     restart: always
 networks:
   docker-custom-net:
@@ -34,3 +35,4 @@ networks:
 volumes:
   logs:
   db:
+  static:
