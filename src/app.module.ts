@@ -10,6 +10,7 @@ import UsersModule from './module/user/user.module';
 import TasksModule from './module/task/task.module';
 
 import typeOrmConfig from './common/ormconfig';
+import LoginModule from './module/login/login.module';
 
 @Module({
   imports: [
@@ -18,7 +19,10 @@ import typeOrmConfig from './common/ormconfig';
       autoLoadEntities: true,
     }),
     UsersModule,
+    LoginModule,
     TasksModule,
+    BoardsModule,
+    FilesModule,
   ],
   controllers: [AppController],
   providers: [AppService, Logger],
