@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoggerMiddleware } from './services/logger/logger.middleware';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UsersModule } from './module/user/user.module';
 import typeOrmConfig from './common/ormconfig';
 
 @Module({
@@ -11,6 +12,7 @@ import typeOrmConfig from './common/ormconfig';
       ...typeOrmConfig,
       autoLoadEntities: true,
     }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService, Logger],
