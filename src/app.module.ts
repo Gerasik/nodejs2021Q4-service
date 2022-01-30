@@ -6,11 +6,13 @@ import { LoggerMiddleware } from './services/logger/logger.middleware';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-import UsersModule from './module/user/user.module';
-import TasksModule from './module/task/task.module';
+import UserModule from './module/user/user.module';
+import TaskModule from './module/task/task.module';
+import LoginModule from './module/login/login.module';
+import BoardModule from './module/board/board.module';
+import FileModule from './module/file/file.module';
 
 import typeOrmConfig from './common/ormconfig';
-import LoginModule from './module/login/login.module';
 
 @Module({
   imports: [
@@ -18,11 +20,11 @@ import LoginModule from './module/login/login.module';
       ...typeOrmConfig,
       autoLoadEntities: true,
     }),
-    UsersModule,
+    UserModule,
     LoginModule,
-    TasksModule,
-    BoardsModule,
-    FilesModule,
+    TaskModule,
+    BoardModule,
+    FileModule,
   ],
   controllers: [AppController],
   providers: [AppService, Logger],
