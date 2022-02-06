@@ -1,5 +1,5 @@
 config:
-  target: 'http://localhost:4001'
+  target: 'http://localhost:4000'
   phases:
     - duration: 10
       arrivalRate: 5
@@ -8,7 +8,7 @@ config:
 
 before:
   flow:
-    - log: 'Get auth token'
+    - log: 'Get auth Bearer token'
     - post:
         url: '/login'
         json:

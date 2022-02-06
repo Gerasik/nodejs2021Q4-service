@@ -1,79 +1,85 @@
-# RS School REST service
-
-## Running application with docker
-- download docker and docker-compose
-- clone repo
-- ```git checkout develop-docker```
-- ```docker-compose up```
-- ```docker images``` to check custom images size
-
-## Prerequisites
-
-- Git - [Download & Install Git](https://git-scm.com/downloads).
-- Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
+# Final Task NodeJS2021Q4 service
 
 ## Downloading
 
-```
-git clone {repository URL}
-```
-
-## Installing NPM modules
-
-```
-npm install
+```bash
+git clone -b nest-app {repository URL}
 ```
 
-## Running application
+## Installation
 
-```
-npm start
-```
-
-After starting the app on port (4000 as default) you can open
-in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
-For more information about OpenAPI/Swagger please visit https://swagger.io/.
-
-## Testing
-
-After application running open new terminal and enter:
-
-To run all tests without authorization
-
-```
-npm test
+```bash
+$ npm install
 ```
 
-To run only one of all test suites (users, boards or tasks)
+## Running the app
 
-```
-npm test <suite name>
-```
-
-To run all test with authorization
-
-```
-npm run test:auth
+```bash
+$ docker-compose up --build
 ```
 
-To run only specific test suite with authorization (users, boards or tasks)
+## Test
 
-```
-npm run test:auth <suite name>
-```
-
-## Development
-
-If you're using VSCode, you can get a better developer experience from integration with [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extensions.
-
-### Auto-fix and format
-
-```
-npm run lint
+```bash
+$ npm run test:auth
 ```
 
-### Debugging in VSCode
+## Authorization
 
-Press <kbd>F5</kbd> to debug.
+This application uses Bearer JWT token authentication for authentication to all routes besides `/`, `api` and `/files` (GET method).
 
-For more information, visit: https://code.visualstudio.com/docs/editor/debugging
+To get the JWT token you must send the login and password in http request to `/login`.
+
+# Performance comparsion
+
+## Express
+
+|                    |        |
+| ------------------ | ------ |
+| http.codes.200:    | 249    |
+| http.codes.201:    | 41     |
+| http.request_rate: | 36/sec |
+| http.requests:     | 220    |
+
+| http.response_time:
+| min: | 5
+| max: | 1556
+| median: | 40
+| p95: | 1274.3
+| p99: | 1495.5
+| http.responses: | 290
+| vusers.completed: | 112
+| vusers.created: | 42
+| vusers.created_by_name.test /boards: | 42
+| vusers.session_length:
+| min: | 70
+| max: | 6235.7
+| median: | 5168
+| p95: | 6187.2
+| p99: | 6187.2
+
+## Fastify
+
+|                    |        |
+| ------------------ | ------ |
+| http.codes.200:    | 852    |
+| http.codes.201:    | 213    |
+| http.request_rate: | 90/sec |
+| http.requests:     | 1065   |
+
+| http.response_time:
+| min: | 4
+| max: | 1103
+| median: | 106.7
+| p95: | 907
+| p99: | 1085.9
+| http.responses: | 1065
+| vusers.completed: | 213
+| vusers.created: | 213
+| vusers.created_by_name.test /boards: | 213
+| vusers.session_length:
+| min: | 61.8
+| max: | 3230
+| median: | 713.5
+| p95: | 3134.5
+| p99: | 3197.8

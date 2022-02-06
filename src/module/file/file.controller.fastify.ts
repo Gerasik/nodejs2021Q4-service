@@ -19,7 +19,7 @@ import config from '../../common/config';
 import FilesService from './file.service';
 
 @Controller('files')
-export class FilesControllerFastify {
+export default class FilesControllerFastify {
   constructor(private readonly filesService: FilesService) {}
 
   @UseGuards(AuthGuard)
