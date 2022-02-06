@@ -46,19 +46,25 @@ export default class UsersService {
     return userDataToReturn;
   }
 
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<UpdateUserAnswerDto[]> {
     const users = await this.repo.find({ where: {} });
 
-    return users;
+    const usersToReturn = users.map(
+      (user) => new UpdateUserAnswerDto({ ...user })
+    );
+
+    return usersToReturn;
   }
 
-  async findOne(id: string): Promise<User> {
+  async findOne(id: string): Promise<UpdateUserAnswerDto> {
     const resultUser: User | undefined = await this.repo.findOne(id);
 
     if (!resultUser)
       throw new NotFoundException(`User with id:${id} not found`);
 
-    return resultUser;
+    const userToReturn = new UpdateUserAnswerDto({ ...resultUser });
+
+    return userToReturn;
   }
 
   async update(
