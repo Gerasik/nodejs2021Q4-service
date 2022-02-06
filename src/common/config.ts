@@ -39,6 +39,7 @@ const config = {
   currentLogLevel: +currentLogLevel,
   APP_HOST: process.env.APP_HOST || '0.0.0.0',
   STATIC_FILES_DIR: process.env.STATIC_FILES_DIR || './',
+  USE_FASTIFY: process.env.USE_FASTIFY,
 };
 
 export default config;
