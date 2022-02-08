@@ -3,7 +3,7 @@
 ## Downloading
 
 ```bash
-git clone -b nest-app {repository URL}
+git clone -b "task10(nest)" https://github.com/Gerasik/nodejs2021Q4-service
 ```
 
 ## Installation
