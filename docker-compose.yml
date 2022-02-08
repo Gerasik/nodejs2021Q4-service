@@ -1,0 +1,36 @@
+version: '3'
+services:
+  node:
+    container_name: api-nest
+    build: .
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - 'logs:/usr/app/logs'
+      - './src:/usr/app/src'
+    depends_on:
+      - postgres
+    restart: on-failure
+    networks:
+      - docker-nest
+  postgres:
+    container_name: postgres-nest
+    build: ./database
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+    volumes:
+      - ./db:/var/lib/postgresql/data/
+    networks:
+      - docker-nest
+    restart: always
+networks:
+  docker-nest:
+    driver: bridge
+volumes:
+  logs:
+  db:
